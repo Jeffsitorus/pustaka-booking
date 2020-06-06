@@ -3,14 +3,14 @@ date_default_timezone_set('Asia/Jakarta');
 class Booking extends CI_Controller
 {
 
-    public function __construct()
+    function __construct()
     {
         parent::__construct();
         cek_login();
         $this->load->model(['ModelBooking', 'ModelUser']);
     }
 
-    public function index()
+    function index()
     {
         $id                 = ['bo.id_user' => $this->uri->segment(3)];
         $id_user            = $this->session->userdata('id');
@@ -38,7 +38,7 @@ class Booking extends CI_Controller
         $this->load->view('templates/templates-user/footer');
     }
 
-    public function tambahBooking()
+    function tambahBooking()
     {
         $data['user']   = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $id_buku        = $this->uri->segment(3);
@@ -76,7 +76,7 @@ class Booking extends CI_Controller
         redirect(base_url() . 'home');
     }
 
-    public function hapusbooking()
+    function hapusbooking()
     {
         $id_buku    = $this->uri->segment(3);
         $id_user    = $this->session->userdata('id_user');
@@ -98,7 +98,7 @@ class Booking extends CI_Controller
         }
     }
 
-    public function bookingSelesai($id)
+    function bookingSelesai($id)
     {
         $this->db->query("UPDATE buku, temp SET buku.dibooking=buku.dibooking+1, buku.stok=buku.stok-1 WHERE buku.id=temp.id_buku");
         $tglsekarang    = date('Y-m-d');
@@ -114,7 +114,7 @@ class Booking extends CI_Controller
         redirect(base_url() . 'booking/info');
     }
 
-    public function info()
+    function info()
     {
         $where              = $this->session->userdata('id');
         $data['user']       = $this->session->userdata('nama');
@@ -126,7 +126,7 @@ class Booking extends CI_Controller
         $this->load->view('templates/templates-user/footer');
     }
 
-    public function exportToPdf()
+    function exportToPdf()
     {
         $id_user        = $this->session->userdata('id');
         $data = [
